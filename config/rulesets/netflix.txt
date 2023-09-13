@@ -1,0 +1,15 @@
+payload:
+  - DOMAIN-SUFFIX,netflix.com
+  - DOMAIN-SUFFIX,netflix.net
+  - DOMAIN-SUFFIX,nflxext.com
+  - DOMAIN-SUFFIX,nflxso.net
+  - DOMAIN-SUFFIX,nflximg.com
+  - DOMAIN-SUFFIX,nflximg.net
+  - DOMAIN-SUFFIX,nflxvideo.net
+  - IP-CIDR,45.57.0.0/16
+  - IP-CIDR,23.246.15.0/24
+  - IP-CIDR,208.69.43.0/24
+  - IP-CIDR,54.184.157.0/24
+  - IP-CIDR,198.38.0.0/16
+
+  - DOMAIN-SUFFIX,amazonaws.com

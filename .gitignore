@@ -1,0 +1,7 @@
+output
+temp
+venv
+config/proxies
+config/profiles.yaml
+
+.idea

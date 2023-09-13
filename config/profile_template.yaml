@@ -1,0 +1,90 @@
+port: 3333
+socks-port: 23456
+redir-port: 23457
+allow-lan: true
+mode: rule
+log-level: error
+external-controller: 127.0.0.1:9990
+experimental:
+  ignore-resolve-fail: true
+secret: "clash"
+profile:
+  store-selected: true
+ipv6: false
+tproxy: true
+tproxy-port: 23458
+hosts:
+  router.asus.com: 192.168.201.1
+  services.googleapis.cn: 74.125.193.94
+  ipv6.msftconnecttest.com: 2a01:111:2003::52
+  www.msftconnecttest.com: 13.107.4.52
+dns:
+  enable: true
+  listen: :23453
+  ipv6: false
+  default-nameserver:
+    - 223.5.5.5
+    - 8.8.8.8
+  enhanced-mode: fake-ip
+  nameserver:
+    - https://223.5.5.5/dns-query
+    - tls://101.101.101.101:853
+    - https://doh.pub/dns-query
+  fallback:
+    - 127.0.0.1:23333
+    - tls://1.1.1.1:853
+    - tls://1.0.0.1:853
+    - 101.6.6.6:5353
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+    ipcidr:
+      - 240.0.0.0/4
+    domain:
+      - "+.netflix.com.edgesuite.net"
+      - "+.fast.com"
+      - "+.netflix.com"
+      - "+.netflix.net"
+      - "+.netflixdnstest0.com"
+      - "+.netflixdnstest1.com"
+      - "+.netflixdnstest2.com"
+      - "+.netflixdnstest3.com"
+      - "+.netflixdnstest4.com"
+      - "+.netflixdnstest5.com"
+      - "+.netflixdnstest6.com"
+      - "+.netflixdnstest7.com"
+      - "+.netflixdnstest8.com"
+      - "+.netflixdnstest9.com"
+      - "+.nflxext.com"
+      - "+.nflximg.com"
+      - "+.nflximg.net"
+      - "+.nflxso.net"
+      - "+.nflxvideo.net"
+proxies:
+proxy-groups:
+rule-providers:
+rules:
+  - DOMAIN-SUFFIX,googleapis.com,xtaozi,no-resolve
+  - DOMAIN-SUFFIX,lantaozi.online,DIRECT
+  - RULE-SET,direct,DIRECT
+  - SRC-IP-CIDR,192.168.201.247/32,netflix
+  - RULE-SET,netflix,netflix
+  - RULE-SET,applications,DIRECT
+  - DOMAIN,clash.razord.top,DIRECT
+  - DOMAIN,yacd.haishan.me,DIRECT
+  - DOMAIN-SUFFIX,hulu.com,hulu
+  - DOMAIN-SUFFIX,hulustream.com,hulu
+  - RULE-SET,lancidr,DIRECT
+  - RULE-SET,cncidr,DIRECT
+  - RULE-SET,private,DIRECT,no-resolve
+  - RULE-SET,reject,REJECT
+  - RULE-SET,icloud,xtaozi
+  - RULE-SET,apple,xtaozi
+  - RULE-SET,google,xtaozi
+  - RULE-SET,proxy,xtaozi
+  - RULE-SET,telegramcidr,xtaozi
+  - RULE-SET,gfw,xtaozi
+  - RULE-SET,greatfire,xtaozi
+  - RULE-SET,tld-not-cn,xtaozi
+  - GEOIP,CN,DIRECT,no-resolve
+  - MATCH,xtaozi
