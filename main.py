@@ -1,5 +1,6 @@
 import os.path
 import shutil
+from optparse import OptionParser
 
 import config_parser
 import r2
@@ -52,7 +53,19 @@ def generate_profiles(config_file_path, temp_dir, output_dir, upload_to_r2=False
 
 
 if __name__ == "__main__":
-    _config_file_path = "config/profiles.yaml"
+
+    parser = OptionParser()
+    parser.add_option("-f", "--file", dest="config_file", default="./config/profiles.yaml",
+                      help="specify profile config file", metavar="FILE")
+    parser.add_option("-u", "--upload", dest="upload_profile_to_r2", action="store_true", default=False,
+                      help="upload profile to r2")
+    parser.add_option("-r", "--ruleset", dest="upload_ruleset_to_r2", action="store_true", default=False,
+                      help="upload ruleset to r2")
+    (options, args) = parser.parse_args()
+    _config_file_path = options.config_file
+    _upload_profile_2_r2 = options.upload_profile_to_r2
+    _upload_ruleset_2_r2 = options.upload_ruleset_to_r2
+
     _temp_dir = "./temp"
     _output_dir = "./output"
 
@@ -64,7 +77,9 @@ if __name__ == "__main__":
         shutil.rmtree(_output_dir)
     os.mkdir(_output_dir)
 
-    upload_ruleset(_config_file_path, _temp_dir)
-    # generate_profiles(_config_file_path, _temp_dir, _output_dir, False)
+    if _upload_ruleset_2_r2:
+        upload_ruleset(_config_file_path, _temp_dir)
+
+    generate_profiles(_config_file_path, _temp_dir, _output_dir, _upload_profile_2_r2)
 
     shutil.rmtree(_temp_dir)
