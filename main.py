@@ -16,8 +16,8 @@ def upload_ruleset(config_file_path, temp_dir):
     for ruleset_name in all_ruleset:
         ruleset_loader = all_ruleset[ruleset_name]
         ruleset_loader.download()
-        print(f"Uploading ruleset [{ruleset_name}] to r2...")
         r2_client.upload_file(ruleset_loader.temp_path, ruleset_loader.bucket_object_key)
+        print(f"Ruleset [{ruleset_name}] uploaded to r2")
 
 
 def generate_profiles(config_file_path, temp_dir, output_dir, upload_to_r2=False):
@@ -42,26 +42,27 @@ def generate_profiles(config_file_path, temp_dir, output_dir, upload_to_r2=False
     for profile_name in profiles:
         profile = profiles[profile_name]
         export_to = os.path.join(output_dir, f"{profile.name}.yaml")
-        print("========================================")
-        print(f"Rendering profile {profile.name}...")
-        print("----------------------------------------")
+        print("=================================================================")
+        print(f"Rendering profile {profile.name}")
+        print("---------------------------------")
         profile.render(all_proxy_groups, all_ruleset, all_rules)
         profile.export(export_to)
         print(f"Profile {profile.name} rendered to {export_to}.")
         if upload_to_r2:
             r2_client.upload_file(export_to, f"profile/{profile.name}.yaml")
+            print(f"Profile {profile.name} uploaded to r2.")
 
 
 if __name__ == "__main__":
 
-    parser = OptionParser()
-    parser.add_option("-f", "--file", dest="config_file", default="./config/profiles.yaml",
-                      help="specify profile config file", metavar="FILE")
-    parser.add_option("-u", "--upload", dest="upload_profile_to_r2", action="store_true", default=False,
-                      help="upload profile to r2")
-    parser.add_option("-r", "--ruleset", dest="upload_ruleset_to_r2", action="store_true", default=False,
-                      help="upload ruleset to r2")
-    (options, args) = parser.parse_args()
+    option_parser = OptionParser()
+    option_parser.add_option("-f", "--file", dest="config_file", default="./config/profiles.yaml",
+                             help="specify profile config file", metavar="FILE")
+    option_parser.add_option("-u", "--upload", dest="upload_profile_to_r2", action="store_true", default=False,
+                             help="upload profile to r2")
+    option_parser.add_option("-r", "--ruleset", dest="upload_ruleset_to_r2", action="store_true", default=False,
+                             help="upload ruleset to r2")
+    (options, args) = option_parser.parse_args()
     _config_file_path = options.config_file
     _upload_profile_2_r2 = options.upload_profile_to_r2
     _upload_ruleset_2_r2 = options.upload_ruleset_to_r2
