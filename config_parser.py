@@ -81,6 +81,13 @@ class ConfigParser:
         ruleset = {}
         for conf in self.config["clash"]["rule-provider"]:
             rp_url = conf["url"]
-            loader = ruleset_resolver.RuleSetLoader(rp_url, temp_dir, conf["behavior"], r2_option)
+            name = conf["name"] if "name" in conf else rp_url.split("/")[-1].split(".")[0]
+            loader = ruleset_resolver.RuleSetLoader(name, rp_url, temp_dir, conf["behavior"], r2_option)
             ruleset[loader.name] = loader
         return ruleset
+
+    def parse_rules(self):
+        rules = []
+        for conf in self.config["clash"]["rules"]:
+            rules.append(conf)
+        return rules

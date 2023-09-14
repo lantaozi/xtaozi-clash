@@ -15,7 +15,7 @@ class ClashProfile:
             self.template = yaml.safe_load(f)
             f.close()
 
-    def render(self, all_proxy_groups: dict, all_ruleset: dict):
+    def render(self, all_proxy_groups: dict, all_ruleset: dict, all_rules: list):
         use_proxies = {}
         use_proxy_groups = {}
         use_rules = []
@@ -26,7 +26,7 @@ class ClashProfile:
                 use_proxy_groups[proxy_group.name] = list(map(lambda _p: _p["name"], group_proxies))
                 for proxy in group_proxies:
                     use_proxies[proxy["name"]] = proxy
-        for rule in self.template["rules"]:
+        for rule in all_rules:
             (rule_type, rule_target, rule_proxy, no_resolve) = self.analyze_rule(rule)
             if rule_proxy == "DIRECT" or rule_proxy == "REJECT" or rule_proxy in use_proxy_groups:
                 if rule_type == "RULE-SET":

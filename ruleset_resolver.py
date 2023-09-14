@@ -10,9 +10,9 @@ class RuleSetLoader:
     Load ruleset from url and upload to r2.
     """
 
-    def __init__(self, src_url, temp_dir, behavior, r2_option: r2.R2Client.Option) -> None:
+    def __init__(self, name, src_url, temp_dir, behavior, r2_option: r2.R2Client.Option) -> None:
         self.src_url = src_url  # may be a remote url or a local file path
-        self.name = src_url.split("/")[-1].split(".")[0]
+        self.name = name
         self.temp_dir = temp_dir
         self.temp_path = os.path.join(temp_dir, f"{self.name}.txt")
         self.bucket_object_key = f"ruleset/{self.name}.txt"

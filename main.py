@@ -15,6 +15,7 @@ def upload_ruleset(config_file_path, temp_dir):
     for ruleset_name in all_ruleset:
         ruleset_loader = all_ruleset[ruleset_name]
         ruleset_loader.download()
+        print(f"Uploading ruleset [{ruleset_name}] to r2...")
         r2_client.upload_file(ruleset_loader.temp_path, ruleset_loader.bucket_object_key)
 
 
@@ -32,6 +33,8 @@ def generate_profiles(config_file_path, temp_dir, output_dir, upload_to_r2=False
     all_proxy_groups = parser.parse_proxy_groups(all_proxies)
     print(f" parsing ruleset...")
     all_ruleset = parser.parse_ruleset(temp_dir, r2_option)
+    print(f" parsing rules...")
+    all_rules = parser.parse_rules()
 
     r2_client = r2.R2Client(r2_option)
 
@@ -41,7 +44,7 @@ def generate_profiles(config_file_path, temp_dir, output_dir, upload_to_r2=False
         print("========================================")
         print(f"Rendering profile {profile.name}...")
         print("----------------------------------------")
-        profile.render(all_proxy_groups, all_ruleset)
+        profile.render(all_proxy_groups, all_ruleset, all_rules)
         profile.export(export_to)
         print(f"Profile {profile.name} rendered to {export_to}.")
         if upload_to_r2:
@@ -61,7 +64,7 @@ if __name__ == "__main__":
         shutil.rmtree(_output_dir)
     os.mkdir(_output_dir)
 
-    # upload_ruleset(_config_file_path, _temp_dir)
-    generate_profiles(_config_file_path, _temp_dir, _output_dir, False)
+    upload_ruleset(_config_file_path, _temp_dir)
+    # generate_profiles(_config_file_path, _temp_dir, _output_dir, False)
 
     shutil.rmtree(_temp_dir)
