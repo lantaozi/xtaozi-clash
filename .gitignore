@@ -5,3 +5,4 @@ config/proxies
 config/profiles.yaml
 
 .idea
+.DS_Store

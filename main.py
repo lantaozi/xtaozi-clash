@@ -29,7 +29,7 @@ def generate_profiles(config_file_path, temp_dir, output_dir, upload_to_r2=False
     print(f" parsing proxies...")
     all_proxies = parser.parse_proxies()
     print(f" parsing proxy groups...")
-    all_proxy_groups = parser.parse_proxy_proups(all_proxies)
+    all_proxy_groups = parser.parse_proxy_groups(all_proxies)
     print(f" parsing ruleset...")
     all_ruleset = parser.parse_ruleset(temp_dir, r2_option)
 

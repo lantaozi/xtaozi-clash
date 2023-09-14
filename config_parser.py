@@ -61,7 +61,7 @@ class ConfigParser:
                         f.close()
         return proxies
 
-    def parse_proxy_proups(self, all_proxies):
+    def parse_proxy_groups(self, all_proxies):
         # 解析所有proxy，格式map：<name to proxies>
         proxy_groups = {}
         for conf in self.config["clash"]["proxy-group"]:
@@ -81,6 +81,6 @@ class ConfigParser:
         ruleset = {}
         for conf in self.config["clash"]["rule-provider"]:
             rp_url = conf["url"]
-            loader = ruleset_resolver.RuleSetLoader(rp_url, temp_dir, r2_option)
+            loader = ruleset_resolver.RuleSetLoader(rp_url, temp_dir, conf["behavior"], r2_option)
             ruleset[loader.name] = loader
         return ruleset
